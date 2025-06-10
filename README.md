@@ -42,7 +42,16 @@ Create a conda environment and install dependencies:
 conda create -n self_forcing python=3.10 -y
 conda activate self_forcing
 pip install -r requirements.txt
-pip install flash-attn --no-build-isolation
+#pip install flash-attn --no-build-isolation
+pip uninstall torch torchvision
+pip install torch==2.5.0 torchvision
+pip install https://github.com/Dao-AILab/flash-attention/releases/download/v2.7.4.post1/flash_attn-2.7.4.post1+cu12torch2.5cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
+
+pip install gradio
+pip install "httpx[socks]"
+
+python gradio_app.py
+
 python setup.py develop
 ```
 
