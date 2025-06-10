@@ -18,6 +18,27 @@
   <h3 align="center"><a href="https://arxiv.org/abs/2506.08009">Paper</a> | <a href="https://self-forcing.github.io">Website</a> | <a href="https://huggingface.co/gdhe17/Self-Forcing/tree/main">Models (HuggingFace)</a></h3>
 </p>
 
+```python
+from gradio_client import Client
+
+client = Client("http://localhost:7860")
+
+prompt = '''
+In the style of anime landscape ,The video opens with a panoramic view of a coastal town, featuring a variety of buildings with different colored roofs, predominantly red and orange. The town is nestled on a hillside, overlooking a calm sea with a clear horizon line. The sky is bright blue with scattered white clouds, and the sun is shining brightly, casting a warm glow over the scene. As the video progresses, the sun begins to set, and the sky transitions from blue to shades of orange and yellow, indicating the passage of time. The colors of the buildings become more vibrant as the sunlight changes, and the overall atmosphere shifts from day to evening.
+'''
+
+result = client.predict(
+		prompt=prompt,
+		seed=31337,
+		enable_torch_compile=False,
+		enable_fp8=False,
+		use_taehv=False,
+		api_name="/generate_video"
+)
+from shutil import copy2
+copy2(result[-2]["video"], result[-2]["video"].split("/")[-1])
+```
+
 ---
 
 Self Forcing trains autoregressive video diffusion models by **simulating the inference process during training**, performing autoregressive rollout with KV caching. It resolves the train-test distribution mismatch and enables **real-time, streaming video generation on a single RTX 4090** while matching the quality of state-of-the-art diffusion models.
